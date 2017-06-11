@@ -8,5 +8,10 @@ namespace IlyafPackage
 {
     public class Class1
     {
+        public int MyProperty { get; set; }
+        public Class1()
+        {
+            Console.WriteLine("Hello world!");
+        }
     }
 }
