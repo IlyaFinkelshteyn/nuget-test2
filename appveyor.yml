@@ -29,11 +29,11 @@ deploy_script:
   # download latest nuget
   - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
   
-  # publish packages
-  - nuget.exe setApiKey %api_key% -source https://www.nuget.org  
+  - nuget.exe setApiKey %api_key%
+  
+  # publish packages  
   - ps: ($artifacts.values | Where-Object {($_.path -like '*.nupkg') -and  !($_.path -like '*.symbols.nupkg')}) | foreach-object {nuget.exe push $_.path -Source https://www.nuget.org/api/v2/package; if ($lastexitcode -ne 0) {throw}}
   
-  # publish symbols of needed
-  - nuget.exe setApiKey %api_key% -source https://nuget.smbsrc.net/  
+  # publish symbols if needed
   - ps: ($artifacts.values | Where-Object {$_.path -like '*.symbols.nupkg'}) | foreach-object {nuget.exe push $_.path -Source https://nuget.smbsrc.net/api/v2/package; if ($lastexitcode -ne 0) {throw}}
 
