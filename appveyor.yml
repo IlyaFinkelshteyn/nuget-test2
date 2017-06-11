@@ -1,0 +1,31 @@
+version: 3.0.{build}
+
+environment:
+  api_key:
+    secure: 9f1tfKfxrHOsDPxKcstzU46FndPSu5/oPdKRRuLB4MF+eh8cA2TOKH0cvmxWQ2P5
+
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+
+build:
+  publish_nuget: true
+  publish_nuget_symbols: true
+  include_nuget_references: true
+  verbosity: minimal
+  
+test: off
+
+#deploy:
+#- provider: NuGet
+#  api_key:
+#    secure: 9f1tfKfxrHOsDPxKcstzU46FndPSu5/oPdKRRuLB4MF+eh8cA2TOKH0cvmxWQ2P5
+#  skip_symbols: true
+
+deploy_script:
+  - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+  - nuget.exe setApiKey %api_key% -source https://www.nuget.org
+  - ps: ($artifacts.values | Where-Object { $_.path -like '*.nupkg' }) | foreach-object {nuget.exe push $_.path -Source https://www.nuget.org/api/v2/package; if ($lastexitcode -ne 0) {throw}}
