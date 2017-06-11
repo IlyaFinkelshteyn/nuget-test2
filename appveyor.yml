@@ -3,6 +3,8 @@ version: 3.0.{build}
 environment:
   api_key:
     secure: 9f1tfKfxrHOsDPxKcstzU46FndPSu5/oPdKRRuLB4MF+eh8cA2TOKH0cvmxWQ2P5
+  api_key_smbsrc:
+    secure: 3yeXDeY9MuDPEp+VqFU5M3hp7Oqbaq9Evkxyi55rmzUb14IfqCbNYrQJhw4VV8YD
 
 assembly_info:
   patch: true
@@ -29,11 +31,11 @@ deploy_script:
   # download latest nuget
   - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
   
-  - nuget.exe setApiKey %api_key%
-  
   # publish packages  
+  - nuget.exe setApiKey %api_key% -source https://www.nuget.org
   - ps: ($artifacts.values | Where-Object {($_.path -like '*.nupkg') -and  !($_.path -like '*.symbols.nupkg')}) | foreach-object {nuget.exe push $_.path -Source https://www.nuget.org/api/v2/package; if ($lastexitcode -ne 0) {throw}}
   
   # publish symbols if needed
+  - nuget.exe setApiKey %api_key_smbsrc% -source https://nuget.smbsrc.net
   - ps: ($artifacts.values | Where-Object {$_.path -like '*.symbols.nupkg'}) | foreach-object {nuget.exe push $_.path -Source https://nuget.smbsrc.net/api/v2/package; if ($lastexitcode -ne 0) {throw}}
 
