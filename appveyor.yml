@@ -13,7 +13,7 @@ assembly_info:
 
 build:
   publish_nuget: true
-  publish_nuget_symbols: true
+  #publish_nuget_symbols: true
   include_nuget_references: true
   verbosity: minimal
   
@@ -30,6 +30,3 @@ deploy_script:
   - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
   # publish packages    
   - ps: ($artifacts.values | Where-Object {($_.path -like '*.nupkg') -and  !($_.path -like '*.symbols.nupkg')}) | foreach-object {nuget.exe push $_.path -Source https://www.nuget.org/api/v2/package -ApiKey $env:api_key; if ($lastexitcode -ne 0) {throw}}
-  # publish symbols if needed
-  #- ps: ($artifacts.values | Where-Object {$_.path -like '*.symbols.nupkg'}) | foreach-object {nuget.exe push $_.path -Source https://nuget.smbsrc.net/api/v2/package -ApiKey $env:api_key; if ($lastexitcode -ne 0) {throw}}
-
