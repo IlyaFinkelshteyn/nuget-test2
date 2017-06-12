@@ -31,5 +31,5 @@ deploy_script:
   # publish packages    
   - ps: ($artifacts.values | Where-Object {($_.path -like '*.nupkg') -and  !($_.path -like '*.symbols.nupkg')}) | foreach-object {nuget.exe push $_.path -Source https://www.nuget.org/api/v2/package -ApiKey $env:api_key; if ($lastexitcode -ne 0) {throw}}
   # publish symbols if needed
-  - ps: ($artifacts.values | Where-Object {$_.path -like '*.symbols.nupkg'}) | foreach-object {nuget.exe push $_.path -Source https://nuget.smbsrc.net/api/v2/package -ApiKey $env:api_key; if ($lastexitcode -ne 0) {throw}}
+  #- ps: ($artifacts.values | Where-Object {$_.path -like '*.symbols.nupkg'}) | foreach-object {nuget.exe push $_.path -Source https://nuget.smbsrc.net/api/v2/package -ApiKey $env:api_key; if ($lastexitcode -ne 0) {throw}}
 
