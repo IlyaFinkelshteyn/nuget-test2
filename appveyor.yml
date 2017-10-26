@@ -2,8 +2,8 @@ version: 3.0.{build}
 
 environment:
   api_key:
-    #secure: 9f1tfKfxrHOsDPxKcstzU46FndPSu5/oPdKRRuLB4MF+eh8cA2TOKH0cvmxWQ2P5
-    secure: 8SJ88BfGDKVlkLC5kG5UqyRhdK0ouh9ljmiILAjVqKU2Lhs0CHUY2F/YQ2UuyGS1
+    secure: 9f1tfKfxrHOsDPxKcstzU46FndPSu5/oPdKRRuLB4MF+eh8cA2TOKH0cvmxWQ2P5
+    №secure: 8SJ88BfGDKVlkLC5kG5UqyRhdK0ouh9ljmiILAjVqKU2Lhs0CHUY2F/YQ2UuyGS1
 
 assembly_info:
   patch: true
